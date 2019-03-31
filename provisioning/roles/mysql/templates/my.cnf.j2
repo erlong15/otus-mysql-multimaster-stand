@@ -1,0 +1,25 @@
+[mysqld]
+{% for key, value in mysqld.iteritems() %}
+{% if value == None %}
+{{ key }}
+{% else %}
+{{ key }} = {{ value }}
+{% endif %}
+{% endfor %}
+skip-character-set-client-handshake 
+init_connect='SET collation_connection = utf8_general_ci'
+init_connect='SET NAMES utf8'
+validate_password_policy=0
+validate_password_length=4
+gtid-mode = on
+enforce-gtid-consistency=true
+master-info-repository=TABLE
+relay-log={{ ansible_hostname }}-relay-bin
+
+
+[mysql]
+prompt = "{{ ansible_hostname }} mysql> "
+default-character-set = utf8
+
+[client]
+user = root

@@ -1,0 +1,16 @@
+[master]
+192.168.100.11 ansible_user=vagrant ansible_private_key_file=.vagrant/machines/master/virtualbox/private_key
+
+[slave]
+192.168.100.12 ansible_user=vagrant ansible_private_key_file=.vagrant/machines/slave/virtualbox/private_key
+
+[proxy]
+192.168.100.13 ansible_user=vagrant ansible_private_key_file=.vagrant/machines/proxy/virtualbox/private_key
+
+[all:children]
+master
+slave
+
+[all:vars]
+remote_user = root
+private_key_file = ~/.vagrant.d/insecure_private_key
