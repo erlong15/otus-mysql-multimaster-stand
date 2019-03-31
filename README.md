@@ -39,9 +39,17 @@ mysql-master> START SLAVE;
 yum install proxysql
 systemctl enable proxysql
 ```
-создаем пользователя для
-
+создаем пользователя для  коннекта с прокси
 ```mysql-sql
+CREATE USER otus identified by 'otusPWD';
+GRANT ALL PRIVILEGES on bet.* to otus@'%';
+
+```
+
+настраиваем прокси
+```mysql-sql
+mysql -u admin -padmin -h 127.0.0.1 -P6032 --prompt='Admin>' --default-auth=mysql_native_password
+
 Admin> INSERT INTO mysql_servers(hostgroup_id,hostname,port, weight) VALUES (0, 'master', 3306, 100);
 Admin> INSERT INTO mysql_servers(hostgroup_id,hostname,port, weight) VALUES (0, 'slave', 3306, 1);
 Admin> save mysql servers to disk;
@@ -50,6 +58,10 @@ Admin> INSERT INTO mysql_users(username,password,default_hostgroup) VALUES ('otu
 Admin> save mysql users to disk;
 Admin> load mysql users to runtime;
 ```
+коннектимся
+```bash
+mysql -h 127.0.0.1 -u otus -potusPWD -P 6033
 
+```
 
 
